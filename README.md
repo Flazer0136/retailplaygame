@@ -1,1 +1,1 @@
-# rentplaygame
+# retailplaygame
