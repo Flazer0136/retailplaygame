@@ -3,6 +3,9 @@ use `retailplaygame`;
 DROP TABLE IF EXISTS `authorities`;
 DROP TABLE IF EXISTS `users`;
 
+--
+-- Table structure for table `users`
+--
 
 CREATE TABLE `users` (
   `userID` BIGINT NOT NULL,         -- Changed from long(3) to BIGINT for larger ID values
