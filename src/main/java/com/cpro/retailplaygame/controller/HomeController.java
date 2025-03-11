@@ -5,10 +5,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class IndexController {
-    @GetMapping("/hello")
-    public String sayHello(Model theModel) {
+public class HomeController {
 
-        return "helloworld";
+    @GetMapping("/")
+    public String showHomePage() {
+        return "index";
     }
+
 }

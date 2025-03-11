@@ -1,41 +1,48 @@
 package com.cpro.retailplaygame.entity;
 
-import jakarta.persistence.*; // Import JPA annotations
+import jakarta.persistence.*;
 
-@Entity  // Marks this as an entity class
-@Table(name = "products")  // Links this class to the "products" table in the database
+@Entity
+@Table(name = "products")
 public class Product {
 
-    @Id  // Primary key
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Auto-incremented by the database
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productID;
 
-    @Column(nullable = false)  // Ensures product name is not null
-    private String productName;  // Name of the product
+    @Column(nullable = false)
+    private String productName;
 
     @Column(nullable = false)
-    private int quantity;  // Number of products available
+    private int quantity;
 
     @Column(nullable = false)
-    private double price;  // Price of the product
+    private double price;
 
-    private String info;  // Additional product details
+    private String info;
 
-    // No-argument constructor (needed for JPA to work properly)
+    @Column(nullable = false)
+    private String console; // e.g., PlayStation, Xbox, Nintendo
+
+    @Column(nullable = false)
+    private String genre; // e.g., Action, RPG, Sports
+
+    // No-argument constructor
     public Product() {
     }
 
-    // Constructor to set all fields when creating a new Product
-    public Product(Long productID, String productName, int quantity, double price, String info) {
+    // Constructor with all fields
+    public Product(Long productID, String productName, int quantity, double price, String info, String console, String genre) {
         this.productID = productID;
         this.productName = productName;
         this.quantity = quantity;
         this.price = price;
         this.info = info;
+        this.console = console;
+        this.genre = genre;
     }
 
     // Getters and Setters
-
     public Long getProductID() {
         return productID;
     }
@@ -74,5 +81,21 @@ public class Product {
 
     public void setInfo(String info) {
         this.info = info;
+    }
+
+    public String getConsole() {
+        return console;
+    }
+
+    public void setConsole(String console) {
+        this.console = console;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 }

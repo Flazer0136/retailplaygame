@@ -4,6 +4,7 @@ import com.cpro.retailplaygame.entity.Product;
 import com.cpro.retailplaygame.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,8 +17,14 @@ public class ProductController {
     // This connects the controller to the service layer (automatically assigns an instance)
     private final ProductService productService;
 
-    public ProductController(ProductService productService)
-    {this.productService = productService;}
+    public ProductController(ProductService productService) { this.productService = productService; }
+
+    @GetMapping("/products")
+    public String showProducts(Model model) {
+        List<Product> products = productService.getAllProducts();
+        model.addAttribute("products", products);
+        return "products";
+    }
 
     // This handles GET requests to get all products
     @GetMapping

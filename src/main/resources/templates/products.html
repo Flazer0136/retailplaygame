@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Game Showcases</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<h1>Game Showcases</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Product Name</th>
+        <th>Console</th>
+        <th>Genre</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Info</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${products}">
+        <td th:text="${product.productName}"></td>
+        <td th:text="${product.console}"></td>
+        <td th:text="${product.genre}"></td>
+        <td th:text="${product.price}"></td>
+        <td th:text="${product.quantity}"></td>
+        <td th:text="${product.info}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<a href="/">Back to Home</a>
+</body>
+</html>
