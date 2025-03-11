@@ -61,6 +61,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "api/products").hasRole("OWNER")
                         .requestMatchers(HttpMethod.PUT, "api/products").hasRole("OWNER")
                         .requestMatchers(HttpMethod.DELETE, "api/products/**").hasRole("ADMIN")
+                        .anyRequest().permitAll() // Allow all other endpoints to be accessed by any user
         );
 
         http.httpBasic(Customizer.withDefaults());
