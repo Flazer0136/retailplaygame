@@ -19,12 +19,12 @@ public class ProductController {
 
     public ProductController(ProductService productService) { this.productService = productService; }
 
-    @GetMapping("/products")
-    public String showProducts(Model model) {
-        List<Product> products = productService.getAllProducts();
-        model.addAttribute("products", products);
-        return "products";
-    }
+//    @GetMapping("/products")
+//    public String showProducts(Model model) {
+//        List<Product> products = productService.getAllProducts();
+//        model.addAttribute("products", products);
+//        return "products";
+//    }
 
     // This handles GET requests to get all products
     @GetMapping

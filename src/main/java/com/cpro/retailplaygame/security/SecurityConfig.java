@@ -64,7 +64,16 @@ public class SecurityConfig {
                         .anyRequest().permitAll() // Allow all other endpoints to be accessed by any user
         );
 
-        http.formLogin(Customizer.withDefaults()); // Enable default login page
+        http.formLogin(login -> login
+                .defaultSuccessUrl("/products", true)  // Redirect to products after login
+                .permitAll()
+        );
+        http.logout(logout  -> logout
+                .logoutSuccessUrl("/")  // Redirect to home after logout
+                .permitAll()
+        );
+
+//        http.formLogin(Customizer.withDefaults()); // Enable default login page
         http.httpBasic(Customizer.withDefaults());
         http.csrf(csrf -> csrf.disable());
 

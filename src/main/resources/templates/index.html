@@ -5,10 +5,18 @@
     <title>Retail Play Game (RPG)</title>
 </head>
 <body>
-    <h1>Welcome to Retail Play Game (RPG)</h1>
+    <h1>Retail Play Game (RPG)</h1>
+    <h2>Welcome, <span th:text="${username}"></span>!</h2>
     <p>This is the home page.</p>
 
-    <a th:href="@{/login}">Login</a> |
-    <a th:href="@{/logout}">Logout</a>
+    <!-- Show "Login" only if the user is NOT logged in -->
+    <a th:if="${username == 'Guest'}" th:href="@{/login}">Login</a>
+
+    <!-- Show "Logout" only if the user is logged in -->
+    <a th:if="${username != 'Guest'}" th:href="@{/logout}">Logout</a>
+
+
+
+
 </body>
 </html>

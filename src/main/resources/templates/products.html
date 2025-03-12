@@ -8,6 +8,13 @@
 </head>
 <body class="bg-light">
 <div class="container mt-4">
+    <!-- Show Welcome Message with User ID -->
+    <h3 class="text-center">
+        Welcome, <span th:text="${username}"></span>!
+    </h3>
+    <a th:if="${username == 'Guest'}" th:href="@{/login}">Login</a>
+    <a th:if="${username != 'Guest'}" th:href="@{/logout}">Logout</a>
+
     <h1 class="text-center mb-4">Game Showcases</h1>
 
     <table class="table table-striped table-bordered">
