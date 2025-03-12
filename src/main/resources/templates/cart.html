@@ -1,46 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Cart</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <title>Cart</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 </head>
 <body class="bg-light">
 <div class="container mt-4">
-    <h1 class="text-center mb-4">Your Cart</h1>
+  <!-- Show Welcome Message with User ID -->
+  <h3 class="text-center">
+    Welcome, <span th:text="${username}"></span>!
+  </h3>
 
-    <table class="table table-striped table-bordered">
-        <thead class="table-dark">
-        <tr>
-            <th>Product Name</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Total</th>
-            <th>Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        <!-- Loop through the cart items -->
-        <tr th:each="item : ${cartItems}">
-            <td th:text="${item.productName}"></td>
-            <td th:text="${item.price}"></td>
-            <td th:text="${item.quantity}"></td>
-            <td th:text="${item.totalPrice}"></td>
-            <td>
-                <!-- Remove from cart -->
-                <form th:action="@{/cart/remove/{productId}(productId=${item.productId})}" method="post">
-                    <button type="submit" class="btn btn-danger">Remove</button>
-                </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+  <h1 class="text-center mb-4">Your Cart</h1>
 
-    <div class="text-center">
-        <a href="/" class="btn btn-primary">Back to Home</a>
-        <a href="/cart/checkout" class="btn btn-success">Checkout</a>
-    </div>
+
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

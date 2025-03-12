@@ -12,8 +12,10 @@
     <h3 class="text-center">
         Welcome, <span th:text="${username}"></span>!
     </h3>
-    <a th:if="${username == 'Guest'}" th:href="@{/login}">Login</a>
-    <a th:if="${username != 'Guest'}" th:href="@{/logout}">Logout</a>
+    <a th:if="${username == 'Guest'}" th:href="@{/login}" class="btn btn-success mt-2">Login</a>
+    <a th:if="${username != 'Guest'}" th:href="@{/logout}" class="btn btn-danger mt-2">Logout</a>
+    <!-- View Cart Button -->
+    <a th:if="${username != 'Guest'}" th:href="@{/cart/view}" class="btn btn-info mt-2">View Cart</a>
 
     <h1 class="text-center mb-4">Game Showcases</h1>
 
@@ -39,7 +41,7 @@
             <td th:text="${product.quantity}"></td>
             <td>
                 <!-- Add to Cart button -->
-                <form th:action="@{/api/cart/add}" method="post">
+                <form th:action="@{/cart/add}" method="post">
                     <input type="hidden" th:value="${product.productID}" name="productId" />
                     <input type="hidden" th:value="${product.price}" name="price" />
                     <input type="number" th:name="quantity" min="1" max="${product.quantity}" value="1" class="form-control w-25" />
