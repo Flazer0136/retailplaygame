@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @Controller
 @RequestMapping("/cart")
 public class CartController {
@@ -42,5 +44,32 @@ public class CartController {
             model.addAttribute("totalPrice", 0.0); // Default total for guest
         }
         return "cart";
+    }
+
+    // Add to cart
+    @PostMapping("/add")
+        public String addToCart(@RequestParam("productId") Long productId,
+                            @RequestParam("quantity") int quantity,
+                            Principal principal) {
+        String username = principal.getName();
+        cartService.addToCart(username, productId, quantity);
+        return "redirect:/products";
+    }
+
+    @GetMapping
+    public String viewCart(Principal principal, Model model) {
+        String username = principal.getName();
+        Cart cart = cartService.getCartByUsername(username);
+        model.addAttribute("cart", cart);
+        model.addAttribute("totalPrice", cartService.calculateTotalPrice(cart));
+        return "cart";
+    }
+
+    // Delete form cart
+    @PostMapping("/delete")
+    public String deleteFromCart(@RequestParam("cartItemId") Long cartItemId, Principal principal) {
+        String username = principal.getName();
+        cartService.deleteFromCart(username, cartItemId);
+        return "redirect:/cart";
     }
 }

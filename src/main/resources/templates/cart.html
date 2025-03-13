@@ -6,14 +6,12 @@
 </head>
 <body class="bg-light">
 <div class="container mt-4">
-  <!-- Show Welcome Message with User ID -->
   <h3 class="text-center">
     Welcome, <span th:text="${username}"></span>!
   </h3>
 
   <h1 class="text-center mb-4">Your Cart</h1>
 
-  <!-- Display Cart Items -->
   <div th:if="${cart != null and cart.cartItems != null and not #lists.isEmpty(cart.cartItems)}">
     <table class="table table-striped">
       <thead>
@@ -22,6 +20,7 @@
         <th>Quantity</th>
         <th>Price</th>
         <th>Total</th>
+        <th>Action</th>
       </tr>
       </thead>
       <tbody>
@@ -30,6 +29,12 @@
         <td th:text="${cartItem.quantity}"></td>
         <td th:text="${cartItem.product.price}"></td>
         <td th:text="${cartItem.product.price * cartItem.quantity}"></td>
+        <td>
+          <form th:action="@{/cart/delete}" method="post">
+            <input type="hidden" name="cartItemId" th:value="${cartItem.id}" />
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+        </td>
       </tr>
       </tbody>
     </table>
@@ -42,7 +47,6 @@
     <p>Your cart is empty.</p>
   </div>
 
-  <!-- Back to Products Button -->
   <div class="mt-4 text-center">
     <a class="btn btn-primary" href="/products">Back to Products</a>
   </div>
