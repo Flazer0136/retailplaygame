@@ -31,19 +31,36 @@ public class CartServiceImpl implements CartService {
         return cartOptional.orElse(null); // Return null if no cart is found
     }
 
-    // Adds a product to the cart
     @Override
     public void addToCart(String username, Long productId, int quantity) {
         Optional<Cart> cartOptional = cartRepository.findByUserUsername(username);
         Cart cart = cartOptional.orElseThrow(() -> new RuntimeException("Cart not found"));
         Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("Product not found"));
 
-        CartItem cartItem = new CartItem();
-        cartItem.setCart(cart);
-        cartItem.setProduct(product);
-        cartItem.setQuantity(quantity);
+        CartItem existingCartItem = cart.getCartItems().stream()
+                .filter(item -> item.getProduct().getProductID().equals(productId))
+                .findFirst()
+                .orElse(null);
 
-        cartItemRepository.save(cartItem);
+        if (existingCartItem != null) {
+            existingCartItem.setQuantity(existingCartItem.getQuantity() + quantity);
+        } else {
+            CartItem newCartItem = new CartItem();
+            newCartItem.setProduct(product);
+            newCartItem.setQuantity(quantity);
+            newCartItem.setCart(cart);
+            cart.getCartItems().add(newCartItem);
+        }
+
+        cartRepository.save(cart);
+    }
+
+    // Delete a product from the cart
+    @Override
+    public void deleteFromCart(String username, Long cartItemId) {
+        Optional<CartItem> cartItemOptional = cartItemRepository.findById(cartItemId);
+        CartItem cartItem = cartItemOptional.orElseThrow(() -> new RuntimeException("CartItem not found"));
+        cartItemRepository.delete(cartItem);
     }
 
     // Calculate the total price of the cart dynamically

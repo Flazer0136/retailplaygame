@@ -55,4 +55,21 @@ public class CartController {
         cartService.addToCart(username, productId, quantity);
         return "redirect:/products";
     }
+
+    @GetMapping
+    public String viewCart(Principal principal, Model model) {
+        String username = principal.getName();
+        Cart cart = cartService.getCartByUsername(username);
+        model.addAttribute("cart", cart);
+        model.addAttribute("totalPrice", cartService.calculateTotalPrice(cart));
+        return "cart";
+    }
+
+    // Delete form cart
+    @PostMapping("/delete")
+    public String deleteFromCart(@RequestParam("cartItemId") Long cartItemId, Principal principal) {
+        String username = principal.getName();
+        cartService.deleteFromCart(username, cartItemId);
+        return "redirect:/cart";
+    }
 }

@@ -7,5 +7,7 @@ public interface CartService {
 
     void addToCart(String username, Long productId, int quantity);
 
+    void deleteFromCart(String username, Long cartItemId);  // Add this method
+
     double calculateTotalPrice(Cart cart);
 }
