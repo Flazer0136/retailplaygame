@@ -18,6 +18,10 @@ public class Cart {
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartItem> cartItems;
 
+    @ManyToOne
+    @JoinColumn(name = "couponId", referencedColumnName = "couponId", nullable = true)
+    private Coupon coupon;
+
     public Cart() {}
 
     public Cart(User user) {
@@ -51,5 +55,14 @@ public class Cart {
     // Add a helper method to add a CartItem to the cart
     public void addCartItem(CartItem cartItem) {
         this.cartItems.add(cartItem);
+    }
+
+    // Coupon getter/setter
+    public Coupon getCoupon() {
+        return coupon;
+    }
+
+    public void setCoupon(Coupon coupon) {
+        this.coupon = coupon;
     }
 }

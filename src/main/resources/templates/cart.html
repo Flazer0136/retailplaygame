@@ -38,8 +38,45 @@
       </tr>
       </tbody>
     </table>
+    <!-- Total Price -->
     <div class="text-end">
       <h4>Total: <span th:text="${#numbers.formatDecimal(totalPrice, 2, 2)}"></span></h4>
+    </div>
+    <!-- Coupon Section -->
+    <div class="row mb-3">
+      <div class="col-12 text-end">  <!-- Aligns the content to the right -->
+        <!-- Coupon Input Form -->
+        <form th:action="@{/cart/apply-coupon}" method="post" class="d-inline-flex">
+          <div class="input-group">
+            <input type="text" name="couponCode" class="form-control" placeholder="Enter Coupon Code">
+            <button type="submit" class="btn btn-success">Apply</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- Flash Messages -->
+    <div class="row mb-3">
+      <div class="col-12 text-end">
+        <!-- Flash Messages for Success -->
+        <div th:if="${successMessage != null}" class="alert alert-success d-inline-block text-end mb-3" style="float: right;">
+          <span>
+            Coupon <strong th:text="${cart.coupon.couponCode}"></strong> applied!
+            Discount: <span th:text="${cart.coupon.discount}"></span>%
+          </span>
+        </div>
+      </div>
+      <div class="col-12 text-end">
+        <!-- Flash Messages for Error -->
+        <div th:if="${errorMessage != null}" class="alert alert-danger d-inline-block text-end mb-3" style="float: right;">
+          <span th:text="${errorMessage}"></span>
+        </div>
+      </div>
+    </div>
+    <!-- Checkout Button -->
+    <div class="row">
+      <div class="col-12 text-end">
+        <button type="button" class="btn btn-primary">Checkout</button>
+      </div>
     </div>
   </div>
 

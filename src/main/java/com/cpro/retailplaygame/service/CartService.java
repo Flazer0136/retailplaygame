@@ -10,4 +10,6 @@ public interface CartService {
     void deleteFromCart(String username, Long cartItemId);  // Add this method
 
     double calculateTotalPrice(Cart cart);
+
+    boolean applyCoupon(String username, String couponCode);
 }

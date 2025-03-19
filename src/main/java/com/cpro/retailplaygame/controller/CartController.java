@@ -83,4 +83,18 @@ public class CartController {
         cartService.deleteFromCart(username, cartItemId);
         return "redirect:/cart";
     }
+
+    @PostMapping("/apply-coupon")
+    public String applyCoupon(@RequestParam("couponCode") String couponCode,
+                              Principal principal, RedirectAttributes redirectAttributes) {
+        String username = principal.getName();
+        boolean success = cartService.applyCoupon(username, couponCode);
+
+        if (success) {
+            redirectAttributes.addFlashAttribute("successMessage", "Coupon applied successfully!");
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "Invalid or expired coupon.");
+        }
+        return "redirect:/cart";
+    }
 }
