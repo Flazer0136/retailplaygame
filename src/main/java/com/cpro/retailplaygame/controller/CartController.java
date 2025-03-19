@@ -70,6 +70,7 @@ public class CartController {
     public String viewCart(Principal principal, Model model) {
         String username = principal.getName();
         Cart cart = cartService.getCartByUsername(username);
+        model.addAttribute("username", username);
         model.addAttribute("cart", cart);
         model.addAttribute("totalPrice", cartService.calculateTotalPrice(cart));
         return "cart";
