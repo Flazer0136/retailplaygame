@@ -42,30 +42,42 @@
     <div class="text-end">
       <h4>Total: <span th:text="${#numbers.formatDecimal(totalPrice, 2, 2)}"></span></h4>
     </div>
-    <!-- Coupon -->
-    <form th:action="@{/cart/apply-coupon}" method="post" class="mb-3">
-      <div class="input-group">
-        <input type="text" name="couponCode" class="form-control" placeholder="Enter Coupon Code">
-        <button type="submit" class="btn btn-success">Apply</button>
+    <!-- Coupon Section -->
+    <div class="row mb-3">
+      <div class="col-12 text-end">  <!-- Aligns the content to the right -->
+        <!-- Coupon Input Form -->
+        <form th:action="@{/cart/apply-coupon}" method="post" class="d-inline-flex">
+          <div class="input-group">
+            <input type="text" name="couponCode" class="form-control" placeholder="Enter Coupon Code">
+            <button type="submit" class="btn btn-success">Apply</button>
+          </div>
+        </form>
       </div>
-    </form>
-    <!-- Flash Messages for Success -->
-    <div th:if="${successMessage != null}" class="alert alert-success text-center">
-<!--      <span th:text="${successMessage}"></span>-->
-      <span>
-        Coupon <strong th:text="${cart.coupon.couponCode}"></strong> applied!
-        Discount: <span th:text="${cart.coupon.discount}"></span>%
-      </span>
     </div>
-    <!-- Flash Messages for Error -->
-    <div th:if="${errorMessage != null}" class="alert alert-danger text-center">
-      <span th:text="${errorMessage}"></span>
+    <!-- Flash Messages -->
+    <div class="row mb-3">
+      <div class="col-12 text-end">
+        <!-- Flash Messages for Success -->
+        <div th:if="${successMessage != null}" class="alert alert-success d-inline-block text-end mb-3" style="float: right;">
+          <span>
+            Coupon <strong th:text="${cart.coupon.couponCode}"></strong> applied!
+            Discount: <span th:text="${cart.coupon.discount}"></span>%
+          </span>
+        </div>
+      </div>
+      <div class="col-12 text-end">
+        <!-- Flash Messages for Error -->
+        <div th:if="${errorMessage != null}" class="alert alert-danger d-inline-block text-end mb-3" style="float: right;">
+          <span th:text="${errorMessage}"></span>
+        </div>
+      </div>
     </div>
-    <!-- Show discount if applied -->
-<!--    <div th:if="${cart.coupon != null}" class="text-success">-->
-<!--      <p>Coupon <strong th:text="${cart.coupon.couponCode}"></strong> applied!-->
-<!--        Discount: <span th:text="${cart.coupon.discount}"></span>%</p>-->
-<!--    </div>-->
+    <!-- Checkout Button -->
+    <div class="row">
+      <div class="col-12 text-end">
+        <button type="button" class="btn btn-primary">Checkout</button>
+      </div>
+    </div>
   </div>
 
   <div th:if="${cart == null or #lists.isEmpty(cart.cartItems)}">
