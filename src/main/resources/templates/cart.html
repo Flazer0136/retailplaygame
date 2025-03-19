@@ -38,8 +38,21 @@
       </tr>
       </tbody>
     </table>
+    <!-- Total Price -->
     <div class="text-end">
       <h4>Total: <span th:text="${#numbers.formatDecimal(totalPrice, 2, 2)}"></span></h4>
+    </div>
+    <!-- Coupon -->
+    <form th:action="@{/cart/apply-coupon}" method="post" class="mb-3">
+      <div class="input-group">
+        <input type="text" name="couponCode" class="form-control" placeholder="Enter Coupon Code">
+        <button type="submit" class="btn btn-success">Apply</button>
+      </div>
+    </form>
+    <!-- Show discount if applied -->
+    <div th:if="${cart.coupon != null}" class="text-success">
+      <p>Coupon <strong th:text="${cart.coupon.couponCode}"></strong> applied!
+        Discount: <span th:text="${cart.coupon.discount}"></span>%</p>
     </div>
   </div>
 
