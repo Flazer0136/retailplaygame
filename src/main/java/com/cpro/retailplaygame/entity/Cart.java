@@ -19,7 +19,7 @@ public class Cart {
     private List<CartItem> cartItems;
 
     @ManyToOne
-    @JoinColumn(name = "couponId", referencedColumnName = "couponId")
+    @JoinColumn(name = "couponId", referencedColumnName = "couponId", nullable = true)
     private Coupon coupon;
 
     public Cart() {}

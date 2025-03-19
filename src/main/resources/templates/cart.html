@@ -49,11 +49,23 @@
         <button type="submit" class="btn btn-success">Apply</button>
       </div>
     </form>
-    <!-- Show discount if applied -->
-    <div th:if="${cart.coupon != null}" class="text-success">
-      <p>Coupon <strong th:text="${cart.coupon.couponCode}"></strong> applied!
-        Discount: <span th:text="${cart.coupon.discount}"></span>%</p>
+    <!-- Flash Messages for Success -->
+    <div th:if="${successMessage != null}" class="alert alert-success text-center">
+<!--      <span th:text="${successMessage}"></span>-->
+      <span>
+        Coupon <strong th:text="${cart.coupon.couponCode}"></strong> applied!
+        Discount: <span th:text="${cart.coupon.discount}"></span>%
+      </span>
     </div>
+    <!-- Flash Messages for Error -->
+    <div th:if="${errorMessage != null}" class="alert alert-danger text-center">
+      <span th:text="${errorMessage}"></span>
+    </div>
+    <!-- Show discount if applied -->
+<!--    <div th:if="${cart.coupon != null}" class="text-success">-->
+<!--      <p>Coupon <strong th:text="${cart.coupon.couponCode}"></strong> applied!-->
+<!--        Discount: <span th:text="${cart.coupon.discount}"></span>%</p>-->
+<!--    </div>-->
   </div>
 
   <div th:if="${cart == null or #lists.isEmpty(cart.cartItems)}">
