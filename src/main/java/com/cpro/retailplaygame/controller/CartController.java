@@ -1,9 +1,9 @@
 package com.cpro.retailplaygame.controller;
 
 import com.cpro.retailplaygame.entity.Cart;
-import com.cpro.retailplaygame.entity.Product;
 import com.cpro.retailplaygame.service.CartService;
-import com.cpro.retailplaygame.service.ProductService;
+import com.cpro.retailplaygame.service.StripeService;
+import com.stripe.exception.StripeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +20,9 @@ public class CartController {
 
     @Autowired
     private CartService cartService;
+    
+    @Autowired
+    private StripeService stripeService;
 
     // View cart
     @GetMapping("/view")
@@ -97,4 +100,32 @@ public class CartController {
         }
         return "redirect:/cart";
     }
+
+    @PostMapping("/checkout")
+    public String checkout(Principal principal, Model model) {
+        String username = principal.getName();
+        Cart cart = cartService.getCartByUsername(username);
+
+        if (cart == null || cart.getCartItems().isEmpty()) {
+            model.addAttribute("errorMessage", "Your cart is empty!");
+            return "redirect:/cart/view"; // Redirect back to cart view if cart is empty or null
+        }
+
+        try {
+            String sessionUrl = stripeService.createCheckoutSession(cart);
+            model.addAttribute("sessionUrl", sessionUrl);
+            return "redirect:" + sessionUrl; // Redirect to Stripe checkout session URL
+        } catch (StripeException e) {
+            model.addAttribute("errorMessage", "Error creating checkout session: " + e.getMessage());
+            return "cart"; // Return to cart view on failure
+        }
+    }
+
+    @GetMapping("/success")
+    public String success(Model model) {
+        // You can add any information you'd like to display on the success page
+        model.addAttribute("message", "Thank you for your purchase!");
+        return "success"; // This will render success.html
+    }
+
 }

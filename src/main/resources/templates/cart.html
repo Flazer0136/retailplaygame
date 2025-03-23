@@ -72,10 +72,13 @@
         </div>
       </div>
     </div>
-    <!-- Checkout Button -->
+    <!-- Checkout Form -->
     <div class="row">
       <div class="col-12 text-end">
-        <button type="button" class="btn btn-primary">Checkout</button>
+        <form th:action="@{/cart/checkout}" method="POST">
+          <input type="hidden" name="cartId" th:value="${cart.cartID}" />
+          <button type="submit" class="btn btn-primary">Proceed to Checkout</button>
+        </form>
       </div>
     </div>
   </div>
