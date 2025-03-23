@@ -12,7 +12,7 @@
   <a th:if="${username == 'Guest'}" th:href="@{/login}" class="btn btn-success mt-2">Login</a>
   <a th:if="${username != 'Guest'}" th:href="@{/logout}" class="btn btn-danger mt-2">Logout</a>
   <a th:if="${username != 'Guest'}" th:href="@{/cart/view}" class="btn btn-info mt-2">View Cart</a>
-  <a th:href="@{/order-history}" class="btn btn-info mt-2">View Purchase History</a>
+  <a th:if="${username != 'Guest'}" th:href="@{/order-history}" class="btn btn-info mt-2">View Purchase History</a>
   <br><br>  
 
 
