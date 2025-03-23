@@ -3,6 +3,7 @@
 <head>
   <title>Game Showcases</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body class="bg-light">
 <div class="container mt-4 mb-4">
@@ -48,8 +49,22 @@
           <input type="hidden" th:value="${product.productID}" name="productId" />
           <input type="hidden" th:value="${product.productName}" name="productName" />
           <input type="hidden" th:value="${product.price}" name="price" />
-          <input type="number" th:name="quantity" min="1" th:max="${product.quantity}" value="1" class="form-control w-50 text-center" />
-          <button type="submit" class="btn btn-success mt-2">Add to Cart</button>
+          <!-- Show "OUT OF STOCK" badge if quantity is 0, and center it -->
+          <span th:if="${product.quantity == 0}"
+                class="badge bg-danger mx-auto d-block d-flex align-items-center justify-content-center"
+                style="height: 38px; padding: 8px 16px;">
+              OUT OF STOCK
+          </span>
+          <!-- Input for quantity and button on the same line if quantity > 0 -->
+          <div th:if="${product.quantity > 0}" class="d-flex align-items-center w-100">
+            <!-- Quantity input with uniform height -->
+            <input th:name="quantity" min="1" th:max="${product.quantity}" value="1"
+                   type="number" class="form-control text-center me-2" style="height: 38px; width: 60%;" />
+            <!-- Add to Cart button with Bootstrap icon -->
+            <button type="submit" class="btn btn-success" style="height: 38px; width: 30%;">
+              <i class="bi bi-cart-plus"></i>  <!-- Bootstrap icon for "Add to Cart" -->
+            </button>
+          </div>
         </form>
       </td>
     </tr>
