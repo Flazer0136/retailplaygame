@@ -158,10 +158,8 @@ public class CartController {
         try {
             orderService.saveOrder(user, cart);
 
-            // Now, delete each cart item after the order is created
-            for (CartItem cartItem : cart.getCartItems()) {
-                cartService.deleteFromCart(username, cartItem.getId());  // Deletes individual cart items
-            }
+            // Clear the cart after the order has been placed
+            cartService.clearCart(username);
 
             model.addAttribute("message", "Your order has been placed successfully!");
             return "success"; // Return to an order confirmation page or success view

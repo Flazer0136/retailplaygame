@@ -12,4 +12,6 @@ public interface CartService {
     double calculateTotalPrice(Cart cart);
 
     boolean applyCoupon(String username, String couponCode);
+
+    void clearCart(String username);
 }

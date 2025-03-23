@@ -69,18 +69,18 @@ public class CartServiceImpl implements CartService {
         cartItemRepository.delete(cartItem);
     }
 
-    // Calculate the total price of the cart dynamically
-//    public double calculateTotalPrice(Cart cart) {
-//        double total = 0;
-//        // Loop through all cart items and sum their total price
-//        for (CartItem item : cart.getCartItems()) {
-//            // Multiply product price by quantity and add to total
-//            double itemTotal = item.getProduct().getPrice() * item.getQuantity();
-//            total += itemTotal;
-//        }
-//        return total;  // Return the calculated total price
-//    }
+    @Override
+    public void clearCart(String username) {
+        Optional<Cart> cartOptional = cartRepository.findByUserUsername(username);
+        Cart cart = cartOptional.orElseThrow(() -> new RuntimeException("Cart not found"));
+        if (cart != null) {
+            cartItemRepository.deleteAll(cart.getCartItems()); // Removes all items from the cart
+            cart.getCartItems().clear(); // Clear the list to reflect changes
+            cartRepository.save(cart); // Save the empty cart
+        }
+    }
 
+    @Override
     public double calculateTotalPrice(Cart cart) {
         double total = cart.getCartItems().stream()
                 .mapToDouble(item -> item.getProduct().getPrice() * item.getQuantity())
@@ -101,6 +101,7 @@ public class CartServiceImpl implements CartService {
     }
 
     // Apply Coupon
+    @Override
     public boolean applyCoupon(String username, String couponCode) {
         Cart cart = getCartByUsername(username);
         Optional<Coupon> couponOpt = couponRepository.findByCouponCode(couponCode);
