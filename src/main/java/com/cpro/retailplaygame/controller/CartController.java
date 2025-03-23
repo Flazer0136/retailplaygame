@@ -1,8 +1,12 @@
 package com.cpro.retailplaygame.controller;
 
 import com.cpro.retailplaygame.entity.Cart;
+import com.cpro.retailplaygame.entity.CartItem;
+import com.cpro.retailplaygame.entity.User;
 import com.cpro.retailplaygame.service.CartService;
+import com.cpro.retailplaygame.service.OrderService;
 import com.cpro.retailplaygame.service.StripeService;
+import com.cpro.retailplaygame.service.UserService;
 import com.stripe.exception.StripeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -13,16 +17,23 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/cart")
 public class CartController {
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private CartService cartService;
 
     @Autowired
     private StripeService stripeService;
+
+    @Autowired
+    private OrderService orderService;
 
     // View cart
     @GetMapping("/view")
@@ -122,10 +133,43 @@ public class CartController {
     }
 
     @GetMapping("/success")
-    public String success(Model model) {
-        // You can add any information you'd like to display on the success page
-        model.addAttribute("message", "Thank you for your purchase!");
-        return "success"; // This will render success.html
+    public String success(Principal principal, Model model) {
+        String username = principal.getName();
+        Cart cart = cartService.getCartByUsername(username);
+
+        if (cart == null || cart.getCartItems().isEmpty()) {
+            model.addAttribute("errorMessage", "Your cart is empty!");
+            return "redirect:/cart/view"; // Redirect back to cart if cart is empty
+        }
+
+        // Find the user by username from the list of all users
+        Optional<User> userOptional = userService.getAllUsers().stream()
+                .filter(user -> user.getUsername().equals(username))
+                .findFirst();
+
+        if (userOptional.isEmpty()) {
+            model.addAttribute("errorMessage", "User not found.");
+            return "cart"; // Return to cart view if the user is not found
+        }
+
+        User user = userOptional.get();
+
+        // Save the order using the OrderService
+        try {
+            orderService.saveOrder(user, cart);
+
+            // Now, delete each cart item after the order is created
+            for (CartItem cartItem : cart.getCartItems()) {
+                cartService.deleteFromCart(username, cartItem.getId());  // Deletes individual cart items
+            }
+
+            model.addAttribute("message", "Your order has been placed successfully!");
+            return "success"; // Return to an order confirmation page or success view
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "An error occurred while processing your order: " + e.getMessage());
+            return "cart"; // Return to the cart view on failure
+        }
     }
+
 
 }
