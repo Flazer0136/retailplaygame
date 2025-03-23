@@ -28,18 +28,24 @@ public class StripeServiceImpl implements StripeService {
 
         // Prepare session items
         List<SessionCreateParams.LineItem> lineItems = new ArrayList<>();
-        double totalPrice = 0.0;
 
         // Loop through cart items to prepare them for the checkout session
         for (CartItem item : cart.getCartItems()) {
-            totalPrice += item.getProduct().getPrice() * item.getQuantity(); // Calculate total price for the item
+            // Calculate the price for the item (before discount)
+            double itemPrice = item.getProduct().getPrice();
+
+            // Apply the coupon discount if available
+            double discountAmount = cart.getCoupon() != null ? cart.getCoupon().getDiscount() : 0.0;
+            if (discountAmount > 0) {
+                itemPrice = itemPrice - (itemPrice * (discountAmount / 100)); // Apply discount
+            }
 
             lineItems.add(
                     SessionCreateParams.LineItem.builder()
                             .setPriceData(
                                     SessionCreateParams.LineItem.PriceData.builder()
                                             .setCurrency("cad")
-                                            .setUnitAmount((long) (item.getProduct().getPrice() * 100)) // Stripe uses cents
+                                            .setUnitAmount((long) (itemPrice * 100)) // Stripe uses cents
                                             .setProductData(
                                                     SessionCreateParams.LineItem.PriceData.ProductData.builder()
                                                             .setName(item.getProduct().getProductName())
@@ -53,7 +59,7 @@ public class StripeServiceImpl implements StripeService {
         }
 
         String successUrl = "http://localhost:" + serverPort + "/cart/success";
-        String cancelUrl = "http://localhost:" + serverPort + "/cart/view";
+        String cancelUrl = "http://localhost:" + serverPort + "/products";
 
         // Create a checkout session with the specified details
         SessionCreateParams params = SessionCreateParams.builder()
