@@ -17,7 +17,7 @@
   <div th:if="${order != null}">
     <h3>Order ID: <span th:text="${order.id}"></span></h3>
     <p><strong>Order Date:</strong> <span th:text="${#dates.format(order.orderDate, 'yyyy-MM-dd HH:mm')}"></span></p>
-    <p><strong>Total Price:</strong> <span th:text="${order.totalPrice}"></span></p>
+    <p><strong>Total Price:</strong> <span th:text="${#numbers.formatDecimal(order.totalPrice, 2, 2)}"></span></p>
     <p><strong>Coupon Code:</strong> <span th:text="${order.couponCode}"></span></p>
 
     <h3>Order Items:</h3>
