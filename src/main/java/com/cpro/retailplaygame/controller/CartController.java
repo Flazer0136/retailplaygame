@@ -2,7 +2,9 @@ package com.cpro.retailplaygame.controller;
 
 import com.cpro.retailplaygame.entity.Cart;
 import com.cpro.retailplaygame.entity.CartItem;
+import com.cpro.retailplaygame.entity.Product;
 import com.cpro.retailplaygame.entity.User;
+import com.cpro.retailplaygame.repository.ProductRepository;
 import com.cpro.retailplaygame.service.CartService;
 import com.cpro.retailplaygame.service.OrderService;
 import com.cpro.retailplaygame.service.StripeService;
@@ -34,6 +36,9 @@ public class CartController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     // View cart
     @GetMapping("/view")
@@ -157,6 +162,19 @@ public class CartController {
         // Save the order using the OrderService
         try {
             orderService.saveOrder(user, cart);
+
+            // Update product stock levels after the order is saved
+            for (CartItem cartItem : cart.getCartItems()) {
+                Product product = cartItem.getProduct();
+
+                if (product.getQuantity() >= cartItem.getQuantity()) {
+                    product.setQuantity(product.getQuantity() - cartItem.getQuantity()); // Deduct stock
+                    productRepository.save(product); // Save updated stock to the database
+                } else {
+                    model.addAttribute("errorMessage", "Not enough stock for product: " + product.getProductName());
+                    return "cart"; // Redirect back to cart if stock is insufficient
+                }
+            }
 
             // Clear the cart after the order has been placed
             cartService.clearCart(username);
