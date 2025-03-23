@@ -32,7 +32,7 @@
       <th>Console</th>
       <th>Price</th>
       <th>Quantity</th>
-      <th> </th>
+      <th th:if="${username != 'Guest'}"> </th>
     </tr>
     </thead>
     <tbody>
@@ -43,7 +43,7 @@
       <td th:text="${product.console}"></td>
       <td th:text="${product.price}"></td>
       <td th:text="${product.quantity}"></td>
-      <td>
+      <td th:if="${username != 'Guest'}">
         <form th:action="@{/cart/add}" method="post">
           <input type="hidden" th:value="${product.productID}" name="productId" />
           <input type="hidden" th:value="${product.productName}" name="productName" />
