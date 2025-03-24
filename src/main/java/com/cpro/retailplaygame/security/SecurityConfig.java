@@ -65,6 +65,8 @@ public class SecurityConfig {
         );
 
         http.formLogin(login -> login
+                .loginPage("/login") // Specify custom login page
+                .loginProcessingUrl("/authenticate") // The URL where login form submits data
                 .defaultSuccessUrl("/products", true)  // Redirect to products after login
                 .permitAll()
         );
