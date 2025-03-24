@@ -24,24 +24,40 @@
 
   <h1 class="text-center mb-4">Game Showcases</h1>
 
-  <table class="table table-striped table-bordered">
+<!--  Dropdown for filter -->
+  <div class="mb-3 d-flex gap-3">
+    <label for="searchInput">Search:</label>
+    <input type="text" id="searchInput" class="form-control" style="width: 250px;" placeholder="Search by name or description" onkeyup="filterTable()">
+
+    <label for="genreFilter">Genre:</label>
+    <select id="genreFilter" class="form-select" style="width: 200px;" onchange="filterTable()">
+    </select>
+
+    <label for="consoleFilter">Console:</label>
+    <select id="consoleFilter" class="form-select" style="width: 200px;" onchange="filterTable()">
+    </select>
+
+  </div>
+
+<!--  Products table -->
+  <table class="table table-bordered" id="gameTable">
     <thead class="table-dark">
     <tr>
-      <th>Product Name</th>
-      <th>Description</th>
-      <th>Genre</th>
-      <th>Console</th>
-      <th>Price</th>
-      <th>Quantity</th>
+      <th onclick="sortTable(0)">Product Name <i class="bi bi-arrow-down-up"></i></th>
+      <th onclick="sortTable(1)">Description <i class="bi bi-arrow-down-up"></i></th>
+      <th onclick="sortTable(2)">Genre <i class="bi bi-arrow-down-up"></i></th>
+      <th onclick="sortTable(3)">Console <i class="bi bi-arrow-down-up"></i></th>
+      <th onclick="sortTable(4)">Price <i class="bi bi-arrow-down-up"></i></th>
+      <th onclick="sortTable(5)">Quantity <i class="bi bi-arrow-down-up"></i></th>
       <th th:if="${username != 'Guest'}"> </th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="product : ${products}">
-      <td th:text="${product.productName}"></td>
-      <td th:text="${product.info}"></td>
-      <td th:text="${product.genre}"></td>
-      <td th:text="${product.console}"></td>
+      <td class="product-name" th:text="${product.productName}"></td>
+      <td class="product-desc" th:text="${product.info}"></td>
+      <td class="genre" th:text="${product.genre}"></td>
+      <td class="console" th:text="${product.console}"></td>
       <td th:text="${product.price}"></td>
       <td th:text="${product.quantity}"></td>
       <td th:if="${username != 'Guest'}">
@@ -49,20 +65,15 @@
           <input type="hidden" th:value="${product.productID}" name="productId" />
           <input type="hidden" th:value="${product.productName}" name="productName" />
           <input type="hidden" th:value="${product.price}" name="price" />
-          <!-- Show "OUT OF STOCK" badge if quantity is 0, and center it -->
-          <span th:if="${product.quantity == 0}"
-                class="badge bg-danger mx-auto d-block d-flex align-items-center justify-content-center"
+          <span th:if="${product.quantity == 0}" class="badge bg-danger mx-auto d-block d-flex align-items-center justify-content-center"
                 style="height: 38px; padding: 8px 16px;">
-              OUT OF STOCK
-          </span>
-          <!-- Input for quantity and button on the same line if quantity > 0 -->
+                    OUT OF STOCK
+                </span>
           <div th:if="${product.quantity > 0}" class="d-flex align-items-center w-100">
-            <!-- Quantity input with uniform height -->
             <input th:name="quantity" min="1" th:max="${product.quantity}" value="1"
                    type="number" class="form-control text-center me-2" style="height: 38px; width: 60%;" />
-            <!-- Add to Cart button with Bootstrap icon -->
             <button type="submit" class="btn btn-success" style="height: 38px; width: 30%;">
-              <i class="bi bi-cart-plus"></i>  <!-- Bootstrap icon for "Add to Cart" -->
+              <i class="bi bi-cart-plus"></i>
             </button>
           </div>
         </form>
@@ -76,6 +87,10 @@
   </div>
 </div>
 
+<!-- Link to the external JavaScript file -->
+<script src="/js/filter.js"></script>
+<script src="/js/sort.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
