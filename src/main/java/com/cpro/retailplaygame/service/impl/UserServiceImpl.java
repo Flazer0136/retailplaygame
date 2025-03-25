@@ -1,6 +1,8 @@
 package com.cpro.retailplaygame.service.impl;
 
+import com.cpro.retailplaygame.entity.Authorities;
 import com.cpro.retailplaygame.entity.User;
+import com.cpro.retailplaygame.repository.AuthoritiesRepository;
 import com.cpro.retailplaygame.repository.UserRepository;
 import com.cpro.retailplaygame.service.UserService;
 import org.springframework.stereotype.Service;
@@ -14,9 +16,12 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
+    private AuthoritiesRepository authoritiesRepository;
 
-    public  UserServiceImpl(UserRepository userRepository)
-    {this.userRepository = userRepository;}
+    public UserServiceImpl(UserRepository userRepository, AuthoritiesRepository authoritiesRepository) {
+        this.userRepository = userRepository;
+        this.authoritiesRepository = authoritiesRepository;
+    }
 
     @Override
     public List<User> getAllUsers() {
@@ -30,7 +35,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user) {
-        return userRepository.save(user);
+        // Save the user first
+        User savedUser = userRepository.save(user);
+
+        // Create and save authority
+        Authorities authority = new Authorities();
+        authority.setUser(savedUser);
+        authority.setAuthority("ROLE_CUSTOMER");
+        authoritiesRepository.save(authority);
+
+        return savedUser;
     }
 
     @Override
@@ -55,5 +69,10 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(Long id) {
         userRepository.deleteById(id); // Deletes the
         // user from the database using their ID
+    }
+
+    @Override
+    public Optional<User> getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 }

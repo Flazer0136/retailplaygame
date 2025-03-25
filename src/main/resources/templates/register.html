@@ -15,17 +15,20 @@
                         <h3>Register</h3>
                     </div>
                     <div class="card-body">
-                        <form th:action="@{/register}" method="post">
+                        <form th:action="@{/register}" method="post" th:object="${user}">
                             <!-- Username Field -->
                             <div class="mb-3">
                                 <label for="username" class="form-label">Username:</label>
-                                <input type="text" id="username" name="username" class="form-control" required>
+                                <input type="text" id="username" th:field="*{username}" class="form-control" required>
+                                <div th:if="${error != null}" class="text-danger">
+                                    <span th:text="${error}"></span>
+                                </div>
                             </div>
 
                             <!-- Password Field -->
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password:</label>
-                                <input type="password" id="password" name="password" class="form-control" required>
+                                <input type="password" id="password" th:field="*{password}" class="form-control" required>
                             </div>
 
                             <!-- Submit Button -->

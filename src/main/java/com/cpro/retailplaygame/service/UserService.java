@@ -23,4 +23,6 @@ User updateUser(Long id, User userDetails);
 // This method deletes a user by their ID
 void deleteUser(Long id);
 
+Optional<User> getUserByUsername(String username);
+
 }
