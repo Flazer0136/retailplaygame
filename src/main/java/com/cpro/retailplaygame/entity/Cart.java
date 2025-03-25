@@ -12,7 +12,7 @@ public class Cart {
     private Long cartID;
 
     @OneToOne
-    @JoinColumn(name = "username", referencedColumnName = "username", nullable = false, unique = true)
+    @JoinColumn(name = "userID", referencedColumnName = "userID", nullable = false, unique = true)
     private User user;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)

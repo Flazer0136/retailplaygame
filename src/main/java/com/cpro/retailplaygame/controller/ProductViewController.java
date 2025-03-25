@@ -1,6 +1,7 @@
 package com.cpro.retailplaygame.controller;
 
 
+import com.cpro.retailplaygame.entity.Cart;
 import com.cpro.retailplaygame.entity.Product;
 import com.cpro.retailplaygame.service.CartService;
 import com.cpro.retailplaygame.service.ProductService;
@@ -17,12 +18,13 @@ import java.util.List;
 public class ProductViewController {
 
     @Autowired
-    private CartService cartService;
+    private final CartService cartService;
 
     private final ProductService productService;
 
-    public ProductViewController(ProductService productService) {
+    public ProductViewController(ProductService productService, CartService cartService) {
         this.productService = productService;
+        this.cartService = cartService;
     }
 
 //    @GetMapping("/products")
@@ -38,12 +40,18 @@ public class ProductViewController {
         model.addAttribute("products", products);
 
         if (userDetails != null) {
-            model.addAttribute("username", userDetails.getUsername());
-            cartService.applyCoupon(userDetails.getUsername(), "DEFAULT");
+            String username = userDetails.getUsername();
+            model.addAttribute("username", username);
+
+            // Only apply coupon if you really need to
+            // cartService.applyCoupon(username, "DEFAULT");
+
+            // Instead, get the cart to display info
+            Cart cart = cartService.getCartByUsername(username);
+            model.addAttribute("cart", cart);
         } else {
             model.addAttribute("username", "Guest");
         }
-
 
         return "products";
     }

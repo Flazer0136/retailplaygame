@@ -1,16 +1,15 @@
 package com.cpro.retailplaygame.service.impl;
 
 import com.cpro.retailplaygame.entity.Cart;
+import com.cpro.retailplaygame.entity.User;
 import com.cpro.retailplaygame.entity.CartItem;
 import com.cpro.retailplaygame.entity.Coupon;
 import com.cpro.retailplaygame.entity.Product;
-import com.cpro.retailplaygame.repository.CartRepository;
-import com.cpro.retailplaygame.repository.CouponRepository;
-import com.cpro.retailplaygame.repository.ProductRepository;
-import com.cpro.retailplaygame.repository.CartItemRepository;
+import com.cpro.retailplaygame.repository.*;
 import com.cpro.retailplaygame.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.Optional;
@@ -22,6 +21,9 @@ public class CartServiceImpl implements CartService {
     private CartRepository cartRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private ProductRepository productRepository;
 
     @Autowired
@@ -31,17 +33,24 @@ public class CartServiceImpl implements CartService {
     private CouponRepository couponRepository;
 
     @Override
+    @Transactional
     public Cart getCartByUsername(String username) {
-        // Find the cart associated with the user by username
-        Optional<Cart> cartOptional = cartRepository.findByUserUsername(username);
-        return cartOptional.orElse(null); // Return null if no cart is found
+        return cartRepository.findByUserUsername(username)
+            .orElseGet(() -> {
+                User user = userRepository.findByUsername(username)
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+
+                Cart newCart = new Cart();
+                newCart.setUser(user); // This sets the proper foreign key
+                return cartRepository.save(newCart);
+            });
     }
 
     @Override
     public void addToCart(String username, Long productId, int quantity) {
-        Optional<Cart> cartOptional = cartRepository.findByUserUsername(username);
-        Cart cart = cartOptional.orElseThrow(() -> new RuntimeException("Cart not found"));
-        Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("Product not found"));
+        Cart cart = getCartByUsername(username); // This now creates cart if needed
+        Product product = productRepository.findById(productId)
+            .orElseThrow(() -> new RuntimeException("Product not found"));
 
         CartItem existingCartItem = cart.getCartItems().stream()
                 .filter(item -> item.getProduct().getProductID().equals(productId))
