@@ -25,6 +25,12 @@ import javax.sql.DataSource;
 @Configuration
 public class SecurityConfig {
 
+    private final DataSource dataSource;
+
+    public SecurityConfig(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
     // JDBC Auth
 //    @Bean
 //    public UserDetailsService userDetailsService(DataSource dataSource) {
@@ -32,50 +38,51 @@ public class SecurityConfig {
 //    }
 
     // InMemory Auth
-    @Bean
-    public InMemoryUserDetailsManager userDetailsManager() {
-        UserDetails customer = User.builder()
-                .username("customer")
-                .password(passwordEncoder().encode("test123")) // Encode password
-                .roles("CUSTOMER")
-                .build();
-
-        UserDetails owner = User.builder()
-                .username("owner")
-                .password(passwordEncoder().encode("test123"))
-                .roles("CUSTOMER", "OWNER")
-                .build();
-
-        UserDetails admin = User.builder()
-                .username("admin")
-                .password(passwordEncoder().encode("test123"))
-                .roles("CUSTOMER", "OWNER", "ADMIN")
-                .build();
-
-        return new InMemoryUserDetailsManager(customer, owner, admin);
-    }
+//    @Bean
+//    public InMemoryUserDetailsManager userDetailsManager() {
+//        UserDetails customer = User.builder()
+//                .username("customer")
+//                .password(passwordEncoder().encode("test123")) // Encode password
+//                .roles("CUSTOMER")
+//                .build();
+//
+//        UserDetails owner = User.builder()
+//                .username("owner")
+//                .password(passwordEncoder().encode("test123"))
+//                .roles("CUSTOMER", "OWNER")
+//                .build();
+//
+//        UserDetails admin = User.builder()
+//                .username("admin")
+//                .password(passwordEncoder().encode("test123"))
+//                .roles("CUSTOMER", "OWNER", "ADMIN")
+//                .build();
+//
+//        return new InMemoryUserDetailsManager(customer, owner, admin);
+//    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests(configurer ->
-                configurer
+            .authorizeHttpRequests(auth ->
+                auth
                     .requestMatchers(HttpMethod.GET, "/api/products").hasRole("CUSTOMER")
                     .requestMatchers(HttpMethod.GET, "/api/products/**").hasRole("CUSTOMER")
                     .requestMatchers(HttpMethod.POST, "/api/products").hasRole("OWNER")
                     .requestMatchers(HttpMethod.PUT, "/api/products").hasRole("OWNER")
                     .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasRole("ADMIN")
-                    .requestMatchers("/register", "/login", "/css/**", "/js/**", "/error").permitAll()
+//                    .requestMatchers("/register", "/login", "/css/**", "/js/**", "/error").permitAll()
                     .anyRequest().authenticated()
             )
-            .formLogin(login -> login
+            .formLogin(form -> form
                 .loginPage("/login") // Specify custom login page
                 .loginProcessingUrl("/authenticate") // The URL where login form submits data
                 .defaultSuccessUrl("/products", true)  // Redirect to products after login
                 .permitAll()
             )
             .logout(logout -> logout
-                .logoutSuccessUrl("/")
+                    .logoutUrl("/logout")
+                .logoutSuccessUrl("/login?logout=true")
                 .permitAll()
             )
             .httpBasic(Customizer.withDefaults())

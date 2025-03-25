@@ -1,8 +1,10 @@
 package com.cpro.retailplaygame.service.impl;
 
 import com.cpro.retailplaygame.entity.Authorities;
+import com.cpro.retailplaygame.entity.Cart;
 import com.cpro.retailplaygame.entity.User;
 import com.cpro.retailplaygame.repository.AuthoritiesRepository;
+import com.cpro.retailplaygame.repository.CartRepository;
 import com.cpro.retailplaygame.repository.UserRepository;
 import com.cpro.retailplaygame.service.UserService;
 import org.springframework.stereotype.Service;
@@ -17,10 +19,14 @@ public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
     private AuthoritiesRepository authoritiesRepository;
+    private CartRepository cartRepository;
 
-    public UserServiceImpl(UserRepository userRepository, AuthoritiesRepository authoritiesRepository) {
+    public UserServiceImpl(UserRepository userRepository,
+                           AuthoritiesRepository authoritiesRepository,
+                           CartRepository cartRepository) {
         this.userRepository = userRepository;
         this.authoritiesRepository = authoritiesRepository;
+        this.cartRepository = cartRepository;
     }
 
     @Override
@@ -43,6 +49,9 @@ public class UserServiceImpl implements UserService {
         authority.setUser(savedUser);
         authority.setAuthority("ROLE_CUSTOMER");
         authoritiesRepository.save(authority);
+
+        Cart cart = new Cart(savedUser);
+        cartRepository.save(cart);
 
         return savedUser;
     }
