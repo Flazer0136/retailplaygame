@@ -1,4 +1,4 @@
-use `retailplaygame`;
+USE `retailplaygame`;
 
 DROP TABLE IF EXISTS `authorities`;
 DROP TABLE IF EXISTS `users`;
@@ -8,39 +8,50 @@ DROP TABLE IF EXISTS `users`;
 --
 
 CREATE TABLE `users` (
-  `userID` BIGINT NOT NULL,         -- Changed from long(3) to BIGINT for larger ID values
-  `username` VARCHAR(50) NOT NULL,
-  `password` VARCHAR(255) NOT NULL,  -- Increased length to 255 to accommodate hashed passwords
-  `enabled` TINYINT(1) NOT NULL,     -- TINYINT(1) is used to store boolean values (0 or 1)
-  PRIMARY KEY (`userID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `userID` bigint NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `enabled` tinyint NOT NULL DEFAULT '1',
+  PRIMARY KEY (`userID`),
+  UNIQUE KEY `username_UNIQUE` (`username`)
+);
 
+--if an older table already exists it won't delete so use this'
+ALTER TABLE `users`
+MODIFY COLUMN `password` VARCHAR(100) NOT NULL,
+MODIFY COLUMN `enabled` TINYINT NOT NULL DEFAULT 1,
+ADD COLUMN IF NOT EXISTS `email` VARCHAR(100),  -- Optional: add if you need email
+DROP INDEX IF EXISTS `username_UNIQUE`,  -- Only if the index name is different
+ADD UNIQUE KEY `username_UNIQUE` (`username`),
+ENGINE=InnoDB DEFAULT CHARSET=latin1;
 --
 -- Inserting data for table `users`
 --
 
-INSERT INTO `users` (`userID`, `username`, `password`, `enabled`)
+INSERT INTO `users` (`username`, `password`, `enabled`)
 VALUES
-(1, 'customer', '{noop}test123', 1),
-(2, 'owner', '{noop}test123', 1),
-(3, 'admin', '{noop}test123', 1);
+('customer', '{noop}test123', 1),
+('owner', '{noop}test123', 1),
+('admin', '{noop}test123', 1);
 
 --
 -- Table structure for table `authorities`
 --
 
 CREATE TABLE `authorities` (
-  `userID` BIGINT NOT NULL,  -- Match the data type with the 'users' table
+  `authorityID` bigint NOT NULL AUTO_INCREMENT,
+  `userID` bigint NOT NULL,
   `authority` varchar(50) NOT NULL,
-  UNIQUE KEY `authorities_idx_1` (`userID`, `authority`),
-  CONSTRAINT `authorities_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`authorityID`),
+  UNIQUE KEY `ix_auth_user` (`userID`,`authority`),
+  CONSTRAINT `fk_authorities_users` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`)
+);
 
 --
 -- Inserting data for table `authorities`
 --
 
-INSERT INTO `authorities` 
+INSERT INTO `authorities` (`userID`, `authority`)
 VALUES 
 (1, 'ROLE_CUSTOMER'),
 (2, 'ROLE_CUSTOMER'),
