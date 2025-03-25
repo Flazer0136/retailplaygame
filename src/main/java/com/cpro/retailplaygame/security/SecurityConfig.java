@@ -64,17 +64,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests(auth ->
-                auth
+            .authorizeHttpRequests(configurer ->
+                configurer
                     .requestMatchers(HttpMethod.GET, "/api/products").hasRole("CUSTOMER")
                     .requestMatchers(HttpMethod.GET, "/api/products/**").hasRole("CUSTOMER")
                     .requestMatchers(HttpMethod.POST, "/api/products").hasRole("OWNER")
                     .requestMatchers(HttpMethod.PUT, "/api/products").hasRole("OWNER")
                     .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasRole("ADMIN")
-//                    .requestMatchers("/register", "/login", "/css/**", "/js/**", "/error").permitAll()
+                    .requestMatchers("/register", "/login", "/css/**", "/js/**", "/error", "/").permitAll()
                     .anyRequest().authenticated()
             )
-            .formLogin(form -> form
+            .formLogin(login -> login
                 .loginPage("/login") // Specify custom login page
                 .loginProcessingUrl("/authenticate") // The URL where login form submits data
                 .defaultSuccessUrl("/products", true)  // Redirect to products after login
