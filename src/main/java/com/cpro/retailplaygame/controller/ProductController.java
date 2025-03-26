@@ -43,15 +43,25 @@ public class ProductController {
         return product.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    // This handles POST requests to create a new product
+//    @PostMapping
+//    @PreAuthorize("hasAuthority('ROLE_OWNER') or hasAuthority('ROLE_ADMIN')")
+//    public String createProduct(@ModelAttribute Product product, RedirectAttributes redirectAttributes) {
+//        productService.createProduct(product);
+//        redirectAttributes.addFlashAttribute("successMessage", "Product added successfully!");
+//        return "redirect:/products";
+//    }
+
     @PostMapping
-    @PreAuthorize("hasAnyAuthority('ROLE_OWNER', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_OWNER') or hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
-        try {
-            Product createdProduct = productService.createProduct(product);
-            return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        // Add validation if needed
+        if (product.getConsole() == null || product.getConsole().isEmpty()) {
+            return ResponseEntity.badRequest().build();
         }
+
+        Product createdProduct = productService.createProduct(product);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
     }
 
     // This handles PUT requests to update an existing product by ID

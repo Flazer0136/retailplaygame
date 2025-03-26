@@ -17,29 +17,42 @@ import java.util.List;
 @Controller
 public class ProductViewController {
 
-    private final ProductService productService;
+    @Autowired
     private final CartService cartService;
+
+    private final ProductService productService;
 
     public ProductViewController(ProductService productService, CartService cartService) {
         this.productService = productService;
         this.cartService = cartService;
     }
 
+//    @GetMapping("/products")
+//    public String showProducts(Model model) {
+//        List<Product> products = productService.getAllProducts();
+//        model.addAttribute("products", products);
+//        return "products";
+//    }
+
     @GetMapping("/products")
     public String showProducts(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-        // Add these TWO CRITICAL model attributes
-        model.addAttribute("product", new Product()); // For form binding
-        model.addAttribute("newProduct", new Product()); // For modal form
-
-        model.addAttribute("products", productService.getAllProducts());
+        List<Product> products = productService.getAllProducts();
+        model.addAttribute("products", products);
 
         if (userDetails != null) {
             String username = userDetails.getUsername();
             model.addAttribute("username", username);
-            model.addAttribute("cart", cartService.getCartByUsername(username));
+
+            // Only apply coupon if you really need to
+            // cartService.applyCoupon(username, "DEFAULT");
+
+            // Instead, get the cart to display info
+            Cart cart = cartService.getCartByUsername(username);
+            model.addAttribute("cart", cart);
         } else {
             model.addAttribute("username", "Guest");
         }
+
         return "products";
     }
 }

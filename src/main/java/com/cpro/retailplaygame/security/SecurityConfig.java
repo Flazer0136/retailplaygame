@@ -68,7 +68,7 @@ public class SecurityConfig {
                 configurer
                     .requestMatchers(HttpMethod.GET, "/api/products").hasRole("CUSTOMER")
                     .requestMatchers(HttpMethod.GET, "/api/products/**").hasRole("CUSTOMER")
-                    .requestMatchers(HttpMethod.POST, "/api/products").hasAnyAuthority("OWNER", "ADMIN")
+                    .requestMatchers(HttpMethod.POST, "/api/products").hasAnyRole("OWNER", "ADMIN")
                     .requestMatchers(HttpMethod.PUT, "/api/products/**").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasRole("ADMIN")
                         .requestMatchers("/api/products").hasAnyAuthority("OWNER", "ADMIN")
@@ -82,9 +82,6 @@ public class SecurityConfig {
                 .defaultSuccessUrl("/products", true)  // Redirect to products after login
                 .permitAll()
             )
-                .exceptionHandling(handling -> handling
-                .accessDeniedPage("/access-denied")
-                )
             .logout(logout -> logout
                     .logoutUrl("/logout")
                 .logoutSuccessUrl("/login?logout=true")
