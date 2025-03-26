@@ -4,8 +4,10 @@ import com.cpro.retailplaygame.entity.Product;
 import com.cpro.retailplaygame.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -42,20 +44,41 @@ public class ProductController {
     }
 
     // This handles POST requests to create a new product
+//    @PostMapping
+//    @PreAuthorize("hasAuthority('ROLE_OWNER') or hasAuthority('ROLE_ADMIN')")
+//    public String createProduct(@ModelAttribute Product product, RedirectAttributes redirectAttributes) {
+//        productService.createProduct(product);
+//        redirectAttributes.addFlashAttribute("successMessage", "Product added successfully!");
+//        return "redirect:/products";
+//    }
+
     @PostMapping
-    public Product createProduct(@RequestBody Product product) {
-        return productService.createProduct(product); // Calls the service to save the product
+    @PreAuthorize("hasAuthority('ROLE_OWNER') or hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+        // Add validation if needed
+        if (product.getConsole() == null || product.getConsole().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Product createdProduct = productService.createProduct(product);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
     }
 
     // This handles PUT requests to update an existing product by ID
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product productDetails) {
-        return ResponseEntity.ok(productService.updateProduct(id, productDetails));
-        // Updates and returns the updated product
+        try {
+            Product updatedProduct = productService.updateProduct(id, productDetails);
+            return ResponseEntity.ok(updatedProduct);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     // This handles DELETE requests to remove a product by ID
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')") // Only admins can delete products
     public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id); // Calls the service to delete the product
         // Return a success message with HTTP status 200 (OK)

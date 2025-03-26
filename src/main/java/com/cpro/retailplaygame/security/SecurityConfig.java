@@ -68,9 +68,11 @@ public class SecurityConfig {
                 configurer
                     .requestMatchers(HttpMethod.GET, "/api/products").hasRole("CUSTOMER")
                     .requestMatchers(HttpMethod.GET, "/api/products/**").hasRole("CUSTOMER")
-                    .requestMatchers(HttpMethod.POST, "/api/products").hasRole("OWNER")
-                    .requestMatchers(HttpMethod.PUT, "/api/products").hasRole("OWNER")
+                    .requestMatchers(HttpMethod.POST, "/api/products").hasAnyRole("OWNER", "ADMIN")
+                    .requestMatchers(HttpMethod.PUT, "/api/products/**").hasRole("ADMIN")
                     .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasRole("ADMIN")
+                        .requestMatchers("/api/products").hasAnyAuthority("OWNER", "ADMIN")
+                        .requestMatchers("/api/products/**").hasAnyAuthority("ADMIN")
                     .requestMatchers("/register", "/login", "/css/**", "/js/**", "/error", "/").permitAll()
                     .anyRequest().authenticated()
             )
