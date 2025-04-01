@@ -37,4 +37,4 @@ INSERT INTO coupons (coupon_code, discount_type, discount, expiry_date, usage_li
 -- make sure your authorityID for customer is lower than the owner or admin
 -- below is the insert command template that can be used to add roles to users
 -- authorityID is auto incremented so you don't need to worry about it
---INSERT INTO authorities (userID, authority) VALUES
+-- INSERT INTO authorities (userID, authority) VALUES
