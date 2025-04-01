@@ -1,11 +1,5 @@
 use `retailplaygame`;
 
--- Insert sample users
-INSERT INTO users (username, password, enabled, email) VALUES
-('customer', '$2a$10$/TymWt5S1OUWbR.VNk/s5eUjp54CktnpNJ6D6L5Z7dIQ6AVQymngm', 1), -- password is "test123"
-('owner', '$2a$10$/TymWt5S1OUWbR.VNk/s5eUjp54CktnpNJ6D6L5Z7dIQ6AVQymngm', 1), -- password is "test123"
-('admin', '$2a$10$/TymWt5S1OUWbR.VNk/s5eUjp54CktnpNJ6D6L5Z7dIQ6AVQymngm', 1); -- password is "test123"
-
 -- Insert sample products (video games)
 INSERT INTO products (product_name, quantity, price, info, console, genre) VALUES
 ('The Legend of Zelda: Breath of the Wild', 10, 59.99, 'An open-world action-adventure game.', 'Nintendo Switch', 'Adventure'),
@@ -30,23 +24,17 @@ INSERT INTO coupons (coupon_code, discount_type, discount, expiry_date, usage_li
 ('WINTER25', 'PERCENTAGE', 20, '2025-12-31', 5),
 ('SUMMER25', 'PERCENTAGE', 10, '2025-07-30', 100);
 
--- Create sample carts
-INSERT INTO carts (userid, coupon_id) VALUES
-(1, 1),  -- customer with DEFAULT coupon
-(2, NULL); -- owner with no coupon
-
--- Add items to carts
-INSERT INTO cart_items (quantity, cartid, productid) VALUES
-(1, 1, 1),  -- customer has Zelda
-(2, 1, 3),  -- customer has 2x Halo
-(1, 2, 2),  -- owner has GoW
-(1, 2, 5);  -- owner has Mario
-
--- Insert sample authorities
-INSERT INTO authorities (userID, authority) VALUES
-(1, 'ROLE_CUSTOMER'),
-(2, 'ROLE_CUSTOMER'),
-(2, 'ROLE_OWNER'),
-(3, 'ROLE_CUSTOMER'),
-(3, 'ROLE_OWNER'),
-(3, 'ROLE_ADMIN');
+-- In order to give different role access to your users:
+-- add a user through the register page in the application
+-- and then assign them a role through the SQL scipt below
+-- Following roles can be added ("ROLE_CUSTOMER"), ("ROLE_OWNER"), ("ROLE_ADMIN")
+-- check your userID first in the users table, of the user you want to assign a role to
+-- you can assign multiple roles to a user, make sure their hierarchy is correct
+-- (e.g. ROLE_ADMIN > ROLE_OWNER > ROLE_CUSTOMER)
+-- so your roles should be like this:
+-- (1, 'ROLE_CUSTOMER'),
+-- (1, 'ROLE_ADMIN'),
+-- make sure your authorityID for customer is lower than the owner or admin
+-- below is the insert command template that can be used to add roles to users
+-- authorityID is auto incremented so you don't need to worry about it
+--INSERT INTO authorities (userID, authority) VALUES
