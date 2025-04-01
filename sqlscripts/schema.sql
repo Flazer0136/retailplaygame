@@ -77,7 +77,7 @@ DROP TABLE IF EXISTS `coupons`;
 /*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `coupons` (
   `coupon_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `coupon_code` varchar(255) NOT NULL,
+  `coupon_code` varchar(250) NOT NULL,
   `discount` double NOT NULL,
   `discount_type` varchar(255) NOT NULL,
   `expiry_date` datetime NOT NULL,
