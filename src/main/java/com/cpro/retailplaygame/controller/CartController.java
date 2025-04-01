@@ -177,6 +177,7 @@ public class CartController {
             }
 
             // Clear the cart after the order has been placed
+            cartService.applyCoupon(username, "DEFAULT");
             cartService.clearCart(username);
 
             model.addAttribute("message", "Your order has been placed successfully!");
