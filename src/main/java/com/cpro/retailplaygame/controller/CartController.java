@@ -1,9 +1,8 @@
 package com.cpro.retailplaygame.controller;
 
-import com.cpro.retailplaygame.entity.Cart;
-import com.cpro.retailplaygame.entity.CartItem;
-import com.cpro.retailplaygame.entity.Product;
-import com.cpro.retailplaygame.entity.User;
+import com.cpro.retailplaygame.entity.*;
+import com.cpro.retailplaygame.repository.CartRepository;
+import com.cpro.retailplaygame.repository.CouponRepository;
 import com.cpro.retailplaygame.repository.ProductRepository;
 import com.cpro.retailplaygame.service.CartService;
 import com.cpro.retailplaygame.service.OrderService;
@@ -32,6 +31,12 @@ public class CartController {
     private CartService cartService;
 
     @Autowired
+    private CartRepository cartRepository;
+
+    @Autowired
+    private CouponRepository couponRepository;
+
+    @Autowired
     private StripeService stripeService;
 
     @Autowired
@@ -53,6 +58,13 @@ public class CartController {
                 model.addAttribute("cart", cart);
                 // Calculate the total price dynamically using the service
                 double totalPrice = cartService.calculateTotalPrice(cart);
+
+                Optional<Coupon> couponOptDefault = couponRepository.findByCouponCode("DEFAULT");
+                if (couponOptDefault.isPresent()) {
+                    cart.setCoupon(couponOptDefault.get());
+                    cartRepository.save(cart);
+                }
+
                 model.addAttribute("totalPrice", totalPrice);
             } else {
                 model.addAttribute("cart", null);

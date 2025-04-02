@@ -114,6 +114,7 @@ public class CartServiceImpl implements CartService {
     public boolean applyCoupon(String username, String couponCode) {
         Cart cart = getCartByUsername(username);
         Optional<Coupon> couponOpt = couponRepository.findByCouponCode(couponCode);
+        Optional<Coupon> couponOptDefault = couponRepository.findByCouponCode("DEFAULT");
 
         if (couponOpt.isPresent()) {
             Coupon coupon = couponOpt.get();
@@ -124,6 +125,11 @@ public class CartServiceImpl implements CartService {
                 cart.setCoupon(coupon);
                 cartRepository.save(cart);
                 return true;
+            } else {
+                if (couponOptDefault.isPresent()) {
+                    cart.setCoupon(couponOptDefault.get());
+                    cartRepository.save(cart);
+                }
             }
         }
         return false;

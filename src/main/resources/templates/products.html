@@ -17,7 +17,7 @@
   <a th:if="${username != 'Guest'}" th:href="@{/order-history}" class="btn btn-info mt-2">View Purchase History</a>
 
   <!-- Add Product Button (OWNER+ADMIN) -->
-  <div sec:authorize="hasAnyAuthority('ROLE_OWNER', 'ROLE_ADMIN')">
+  <div sec:authorize="hasAnyAuthority('ROLE_OWNER', 'ROLE_ADMIN')" class="mt-2">
     <button id="addProductBtn" class="btn btn-success mb-3">
         <i class="bi bi-plus-circle"></i> Add Product
     </button>
