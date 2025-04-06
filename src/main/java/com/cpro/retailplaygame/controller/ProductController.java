@@ -21,12 +21,6 @@ public class ProductController {
 
     public ProductController(ProductService productService) { this.productService = productService; }
 
-//    @GetMapping("/products")
-//    public String showProducts(Model model) {
-//        List<Product> products = productService.getAllProducts();
-//        model.addAttribute("products", products);
-//        return "products";
-//    }
 
     // This handles GET requests to get all products
     @GetMapping
@@ -43,14 +37,6 @@ public class ProductController {
         return product.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // This handles POST requests to create a new product
-//    @PostMapping
-//    @PreAuthorize("hasAuthority('ROLE_OWNER') or hasAuthority('ROLE_ADMIN')")
-//    public String createProduct(@ModelAttribute Product product, RedirectAttributes redirectAttributes) {
-//        productService.createProduct(product);
-//        redirectAttributes.addFlashAttribute("successMessage", "Product added successfully!");
-//        return "redirect:/products";
-//    }
 
     @PostMapping
     @PreAuthorize("hasAuthority('ROLE_OWNER') or hasAuthority('ROLE_ADMIN')")

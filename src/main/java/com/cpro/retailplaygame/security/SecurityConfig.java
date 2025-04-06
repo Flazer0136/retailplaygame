@@ -31,35 +31,7 @@ public class SecurityConfig {
         this.dataSource = dataSource;
     }
 
-    // JDBC Auth
-//    @Bean
-//    public UserDetailsService userDetailsService(DataSource dataSource) {
-//        return new JdbcUserDetailsManager(dataSource);
-//    }
 
-    // InMemory Auth
-//    @Bean
-//    public InMemoryUserDetailsManager userDetailsManager() {
-//        UserDetails customer = User.builder()
-//                .username("customer")
-//                .password(passwordEncoder().encode("test123")) // Encode password
-//                .roles("CUSTOMER")
-//                .build();
-//
-//        UserDetails owner = User.builder()
-//                .username("owner")
-//                .password(passwordEncoder().encode("test123"))
-//                .roles("CUSTOMER", "OWNER")
-//                .build();
-//
-//        UserDetails admin = User.builder()
-//                .username("admin")
-//                .password(passwordEncoder().encode("test123"))
-//                .roles("CUSTOMER", "OWNER", "ADMIN")
-//                .build();
-//
-//        return new InMemoryUserDetailsManager(customer, owner, admin);
-//    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -92,20 +64,7 @@ public class SecurityConfig {
 
         return http.build();
     }
-//    @Bean
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http.authorizeRequests()
-//                .antMatchers(HttpMethod.GET, "/api/products").hasRole("CUSTOMER")
-//                .antMatchers(HttpMethod.GET, "/api/products/**").hasRole("CUSTOMER")
-//                .antMatchers(HttpMethod.POST, "/api/products").hasRole("OWNER")
-//                .antMatchers(HttpMethod.PUT, "/api/products").hasRole("OWNER")
-//                .antMatchers(HttpMethod.DELETE, "/api/products/**").hasRole("ADMIN")
-//                .anyRequest().authenticated()
-//                .and()
-//                .httpBasic();  // Use basic HTTP authentication
-//
-//        return http.build();
-//    }
+
 
     @Bean
     public AuthenticationManager authenticationManager(

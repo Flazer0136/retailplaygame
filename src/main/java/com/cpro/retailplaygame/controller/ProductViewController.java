@@ -27,12 +27,6 @@ public class ProductViewController {
         this.cartService = cartService;
     }
 
-//    @GetMapping("/products")
-//    public String showProducts(Model model) {
-//        List<Product> products = productService.getAllProducts();
-//        model.addAttribute("products", products);
-//        return "products";
-//    }
 
     @GetMapping("/products")
     public String showProducts(@AuthenticationPrincipal UserDetails userDetails, Model model) {

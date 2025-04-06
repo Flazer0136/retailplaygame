@@ -1,0 +1,381 @@
+{
+	"id": "f6f54736-738e-4ad9-8d55-6f7c96f92a6e",
+	"name": "RetailPlayGame API",
+	"timestamp": "2025-04-06T08:41:09.172Z",
+	"collection_id": "41201526-7a78cf7f-6d3e-4d77-ba5d-516d70824657",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 14,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2025-04-06T08:41:06.474Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "1d7852e4-43e7-4126-b3de-102da984c776",
+			"name": "TEST home",
+			"url": "http://localhost:7070/api/products/16",
+			"time": 132,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200 or 404": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200 or 404": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				132
+			],
+			"allTests": [
+				{
+					"Status code is 200 or 404": true
+				}
+			]
+		},
+		{
+			"id": "a4e036c5-e13d-42e1-8e9a-2ee787e91d47",
+			"name": "TEST register",
+			"url": "http://localhost:7070/api/products/16",
+			"time": 131,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200 or 404": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200 or 404": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				131
+			],
+			"allTests": [
+				{
+					"Status code is 200 or 404": true
+				}
+			]
+		},
+		{
+			"id": "9c66db07-15fd-485e-836d-2190f0dc5702",
+			"name": "TEST login",
+			"url": "http://localhost:7070/api/products/16",
+			"time": 126,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200 or 404": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200 or 404": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				126
+			],
+			"allTests": [
+				{
+					"Status code is 200 or 404": true
+				}
+			]
+		},
+		{
+			"id": "4e88c5cc-4348-4cdb-bf00-e1ce420a7042",
+			"name": "TEST users",
+			"url": "http://localhost:7070/api/products",
+			"time": 132,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Returned product list is an array": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Returned product list is an array": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				132
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Returned product list is an array": true
+				}
+			]
+		},
+		{
+			"id": "1895e2e6-171d-4684-a8df-aa6a3dc74dc7",
+			"name": "TEST user by ID",
+			"url": "http://localhost:7070/api/products",
+			"time": 128,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Returned product list is an array": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Returned product list is an array": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				128
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Returned product list is an array": true
+				}
+			]
+		},
+		{
+			"id": "53459b27-db09-410c-8c2c-e50d023a6b81",
+			"name": "TEST all products",
+			"url": "http://localhost:7070/api/products",
+			"time": 132,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Returned product list is an array": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Returned product list is an array": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				132
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Returned product list is an array": true
+				}
+			]
+		},
+		{
+			"id": "eb5c062e-69e4-4b4c-ac7c-051d8b35db3e",
+			"name": "TEST product by ID",
+			"url": "http://localhost:7070/api/products/16",
+			"time": 128,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200 or 404": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200 or 404": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				128
+			],
+			"allTests": [
+				{
+					"Status code is 200 or 404": true
+				}
+			]
+		},
+		{
+			"id": "c323c1ba-64f8-4e3d-acc6-d00435f5c555",
+			"name": "TEST cart",
+			"url": "http://localhost:7070/api/products/16",
+			"time": 134,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200 or 404": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200 or 404": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				134
+			],
+			"allTests": [
+				{
+					"Status code is 200 or 404": true
+				}
+			]
+		},
+		{
+			"id": "7645e52c-5ca5-4e5d-ab8c-fafcc32a269b",
+			"name": "TEST coupon",
+			"url": "http://localhost:7070/api/products/16",
+			"time": 124,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200 or 404": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200 or 404": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				124
+			],
+			"allTests": [
+				{
+					"Status code is 200 or 404": true
+				}
+			]
+		},
+		{
+			"id": "1dbd8534-5633-4fad-b747-9edca236de57",
+			"name": "TEST payment",
+			"url": "http://localhost:7070/api/products/16",
+			"time": 123,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200 or 404": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200 or 404": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				123
+			],
+			"allTests": [
+				{
+					"Status code is 200 or 404": true
+				}
+			]
+		},
+		{
+			"id": "c628c3a1-242e-4729-9aab-a8be6036d466",
+			"name": "TEST order history",
+			"url": "http://localhost:7070/api/products/16",
+			"time": 152,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200 or 404": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200 or 404": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				152
+			],
+			"allTests": [
+				{
+					"Status code is 200 or 404": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 1442,
+	"collection": {
+		"requests": [
+			{
+				"id": "1d7852e4-43e7-4126-b3de-102da984c776",
+				"method": "GET"
+			},
+			{
+				"id": "a4e036c5-e13d-42e1-8e9a-2ee787e91d47",
+				"method": "GET"
+			},
+			{
+				"id": "9c66db07-15fd-485e-836d-2190f0dc5702",
+				"method": "GET"
+			},
+			{
+				"id": "4e88c5cc-4348-4cdb-bf00-e1ce420a7042",
+				"method": "GET"
+			},
+			{
+				"id": "1895e2e6-171d-4684-a8df-aa6a3dc74dc7",
+				"method": "GET"
+			},
+			{
+				"id": "53459b27-db09-410c-8c2c-e50d023a6b81",
+				"method": "GET"
+			},
+			{
+				"id": "eb5c062e-69e4-4b4c-ac7c-051d8b35db3e",
+				"method": "GET"
+			},
+			{
+				"id": "c323c1ba-64f8-4e3d-acc6-d00435f5c555",
+				"method": "GET"
+			},
+			{
+				"id": "7645e52c-5ca5-4e5d-ab8c-fafcc32a269b",
+				"method": "GET"
+			},
+			{
+				"id": "1dbd8534-5633-4fad-b747-9edca236de57",
+				"method": "GET"
+			},
+			{
+				"id": "c628c3a1-242e-4729-9aab-a8be6036d466",
+				"method": "GET"
+			}
+		]
+	}
+}
